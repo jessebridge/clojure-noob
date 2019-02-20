@@ -1,6 +1,6 @@
 (ns clojure-noob.core
-    (:gen-class))
-
+    (:gen-class)
+    (:require [cheshire.core :refer :all]))
 
 (defn -main
       "I don't do a whole lot ... yet."
@@ -25,11 +25,21 @@
 (defn increase-atom-values [atom-state increase-amount]
       (merge-with + atom-state {:small-number increase-amount
                                 :large-number increase-amount}))
+(def cat-map
+  {:id 1
+   :name "Fajita"
+   :type "Cat"
+   :price 70.50
+   :colors ["white" "orange" "black" "brown"]
+   :born (java.util.Date. 971059433000)})
 
+(defn clojure->json [map]
+  (generate-string map))
 
+(defn json->clojure [json]
+  (parse-string json true))
 
-
-
+(def cat-json (clojure->json cat-map))
 ;prints several types of error messages when prompted
 (error-message 1)
 (error-message 2)
@@ -43,4 +53,5 @@
 (println "current atom after 1 change" @practice-atom)
 (swap! practice-atom increase-atom-values 200)
 (println "current atom after 2 changes" @practice-atom)
-
+(println (clojure->json cat-map))
+(println (json->clojure cat-json))
